@@ -36,27 +36,29 @@ export const generateYAxis = (revenue: Revenue[]) => {
 };
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
-  // If the total number of pages is 7 or less,
-  // display all pages without any ellipsis.
+  // 若總頁數為 7 頁或更少，
+  // 顯示所有頁面，不加省略號。
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
-  // If the current page is among the first 3 pages,
-  // show the first 3, an ellipsis, and the last 2 pages.
+  // 如果目前頁在前 3 頁中，
+  // 顯示前三頁，然後用 ... 跳到最後兩頁。
+  //結果範例（假設總共 20 頁）： [1, 2, 3, "...", 19, 20]
   if (currentPage <= 3) {
     return [1, 2, 3, '...', totalPages - 1, totalPages];
   }
 
-  // If the current page is among the last 3 pages,
-  // show the first 2, an ellipsis, and the last 3 pages.
+  // 如果目前頁是最後 3 頁之一，
+  // 顯示前兩頁，用 ... 跳過中間，顯示最後三頁。
+  //結果範例（假設總共 20 頁）： [1, 2, "...", 18, 19, 20]
   if (currentPage >= totalPages - 2) {
     return [1, 2, '...', totalPages - 2, totalPages - 1, totalPages];
   }
 
-  // If the current page is somewhere in the middle,
-  // show the first page, an ellipsis, the current page and its neighbors,
-  // another ellipsis, and the last page.
+  // 如果目前頁位於中間位置，
+  // 最前面一頁、...、目前頁面的「前後各一頁」、...、最後面一頁。
+  // 結果範例（假設在第 10 頁）： [1, "...", 9, 10, 11, "...", 20]
   return [
     1,
     '...',
